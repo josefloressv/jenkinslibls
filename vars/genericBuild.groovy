@@ -2,7 +2,7 @@ def call(Map config=[:]) {
     node {
         stage('SCM') {
             echo 'Gathering code from version control'
-            git branch: 'main', url: 'https://github.com/josefloressv/simple-maven-project-with-tests.git'
+            git branch: config.branch, url: config.url
         }
         stage('Build') {
             try {
@@ -17,7 +17,7 @@ def call(Map config=[:]) {
         }
         stage('Deploy') {
             echo 'Deploying artifacts'
-            createReleaseNotesFile changes : "false"
+            createReleaseNotesFile changes : config.changes
         }
     }
 }
